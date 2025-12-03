@@ -56,29 +56,29 @@ tests/
 
 **⚠️ CRITICAL**: 此階段必須完成後，才能開始任何 User Story 的實作
 
-- [ ] T008 建立 ClipboardStatus 列舉，位於 src/Rivet.Service/Clipboard/ClipboardStatus.cs
-- [ ] T009 [P] 建立 ClipboardContent record in src/Rivet.Service/Clipboard/ClipboardContent.cs
-- [ ] T010 [P] 建立 TargetLanguage 列舉 in src/Rivet.Service/Translation/TargetLanguage.cs
-- [ ] T011 [P] 建立 TranslationRequest record in src/Rivet.Service/Translation/TranslationRequest.cs
-- [ ] T012 [P] 建立 TranslationResult record in src/Rivet.Service/Translation/TranslationResult.cs
-- [ ] T013 [P] 建立 CommandType 列舉 in src/Rivet.Service/Commands/CommandType.cs
-- [ ] T014 [P] 建立 CommandContext record in src/Rivet.Service/Commands/CommandContext.cs
-- [ ] T015 [P] 建立 CommandResult record in src/Rivet.Service/Commands/CommandResult.cs
-- [ ] T016 [P] 建立 AppConfiguration 相關 records in src/Rivet.Service/Configuration/AppConfiguration.cs
-- [ ] T017 [P] 建立 ConfigurationResult record in src/Rivet.Service/Configuration/ConfigurationResult.cs
-- [ ] T018 建立 IClipboardService 介面 in src/Rivet.Service/Clipboard/IClipboardService.cs
-- [ ] T019 [P] 建立 ITranslationService 介面 in src/Rivet.Service/Translation/ITranslationService.cs
-- [ ] T020 [P] 建立 IConfigurationService 介面 in src/Rivet.Service/Configuration/IConfigurationService.cs
-- [ ] T021 [P] 建立 IUserNotifier 介面 in src/Rivet.Service/Notification/IUserNotifier.cs
-- [ ] T022 [P] 建立 ICommandHandler 介面 in src/Rivet.Service/Commands/ICommandHandler.cs
-- [ ] T023 建立 CommandHandlerBase 抽象類別 in src/Rivet.Service/Commands/CommandHandlerBase.cs
-- [ ] T024 實作 WindowsClipboardService in src/Rivet.Infrastructure/Clipboard/WindowsClipboardService.cs
-- [ ] T025 [P] 實作 JsonConfigurationService in src/Rivet.Infrastructure/Configuration/JsonConfigurationService.cs
-- [ ] T026 [P] 實作 GoogleTranslationService in src/Rivet.Infrastructure/Translation/GoogleTranslationService.cs
-- [ ] T027 [P] 設定 Serilog 日誌 in src/Rivet.Infrastructure/Logging/SerilogSetup.cs（含 Trace 層級設定，用於記錄剪貼簿內容）
-- [ ] T028 [P] 實作 ConsoleUserNotifier in src/Rivet.Console/Notification/ConsoleUserNotifier.cs
-- [ ] T028a [P] 撰寫 ClipboardContent 單元測試 in tests/Rivet.Service.Tests/Clipboard/ClipboardContentTests.cs
-- [ ] T028b [P] 撰寫 TranslationResult 單元測試 in tests/Rivet.Service.Tests/Translation/TranslationResultTests.cs
+- [x] T008 建立 ClipboardStatus 列舉，位於 src/Rivet.Service/Clipboard/ClipboardStatus.cs
+- [x] T009 [P] 建立 ClipboardContent record in src/Rivet.Service/Clipboard/ClipboardContent.cs
+- [x] T010 [P] 建立 TargetLanguage 列舉 in src/Rivet.Service/Translation/TargetLanguage.cs
+- [x] T011 [P] 建立 TranslationRequest record in src/Rivet.Service/Translation/TranslationRequest.cs
+- [x] T012 [P] 建立 TranslationResult record in src/Rivet.Service/Translation/TranslationResult.cs
+- [x] T013 [P] 建立 CommandType 列舉 in src/Rivet.Service/Commands/CommandType.cs
+- [x] T014 [P] 建立 CommandContext record in src/Rivet.Service/Commands/CommandContext.cs
+- [x] T015 [P] 建立 CommandResult record in src/Rivet.Service/Commands/CommandResult.cs
+- [x] T016 [P] 建立 AppConfiguration 相關 records in src/Rivet.Service/Configuration/AppConfiguration.cs
+- [x] T017 [P] 建立 ConfigurationResult record in src/Rivet.Service/Configuration/ConfigurationResult.cs
+- [x] T018 建立 IClipboardService 介面 in src/Rivet.Service/Clipboard/IClipboardService.cs
+- [x] T019 [P] 建立 ITranslationService 介面 in src/Rivet.Service/Translation/ITranslationService.cs
+- [x] T020 [P] 建立 IConfigurationService 介面 in src/Rivet.Service/Configuration/IConfigurationService.cs
+- [x] T021 [P] 建立 IUserNotifier 介面 in src/Rivet.Service/Notification/IUserNotifier.cs
+- [x] T022 [P] 建立 ICommandHandler 介面 in src/Rivet.Service/Commands/ICommandHandler.cs
+- [x] T023 建立 CommandHandlerBase 抽象類別 in src/Rivet.Service/Commands/CommandHandlerBase.cs
+- [x] T024 實作 WindowsClipboardService in src/Rivet.Infrastructure/Clipboard/WindowsClipboardService.cs
+- [x] T025 [P] 實作 JsonConfigurationService in src/Rivet.Infrastructure/Configuration/JsonConfigurationService.cs
+- [x] T026 [P] 實作 GoogleTranslationService in src/Rivet.Infrastructure/Translation/GoogleTranslationService.cs
+- [x] T027 [P] 設定 Serilog 日誌 in src/Rivet.Infrastructure/Logging/SerilogSetup.cs（含 Trace 層級設定，用於記錄剪貼簿內容）
+- [x] T028 [P] 實作 ConsoleUserNotifier in src/Rivet.Console/Notification/ConsoleUserNotifier.cs
+- [x] T028a [P] 撰寫 ClipboardContent 單元測試 in tests/Rivet.Service.Tests/Clipboard/ClipboardContentTests.cs
+- [x] T028b [P] 撰寫 TranslationResult 單元測試 in tests/Rivet.Service.Tests/Translation/TranslationResultTests.cs
 
 **Checkpoint**: Foundation ready - 可以開始實作各 User Story
 

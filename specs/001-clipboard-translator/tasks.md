@@ -92,11 +92,11 @@ tests/
 
 ### Implementation for User Story 3
 
-- [ ] T029 [US3] 建立 MainMenu 選單顯示類別 in src/Rivet.Console/Menu/MainMenu.cs（使用 Spectre.Console 顯示選單，支援數字鍵 1/2 選擇與 Esc 取消）
-- [ ] T030 [US3] 建立 CancelCommandHandler 處理器 in src/Rivet.Service/Commands/CancelCommandHandler.cs（處理 Esc 取消操作）
-- [ ] T031 [US3] 建立 CommandChain 責任鏈管理器 in src/Rivet.Service/Commands/CommandChain.cs
-- [ ] T032 [US3] 實作 Program.cs 進入點 in src/Rivet.Console/Program.cs（DI 設定、選單流程、0.5 秒延遲結束）
-- [ ] T032a [US3] 撰寫 CommandChain 單元測試 in tests/Rivet.Service.Tests/Commands/CommandChainTests.cs
+- [x] T029 [US3] 建立 MainMenu 選單顯示類別 in src/Rivet.Console/Menu/MainMenu.cs（使用 Spectre.Console 顯示選單，支援數字鍵 1/2 選擇與 Esc 取消）
+- [x] T030 [US3] 建立 CancelCommandHandler 處理器 in src/Rivet.Service/Commands/CancelCommandHandler.cs（處理 Esc 取消操作）
+- [x] T031 [US3] 建立 CommandChain 責任鏈管理器 in src/Rivet.Service/Commands/CommandChain.cs
+- [x] T032 [US3] 實作 Program.cs 進入點 in src/Rivet.Console/Program.cs（DI 設定、選單流程、0.5 秒延遲結束）
+- [x] T032a [US3] 撰寫 CommandChain 單元測試 in tests/Rivet.Service.Tests/Commands/CommandChainTests.cs
 
 **Checkpoint**: User Story 3 完成 - 可執行程式並看到選單、按 Esc 可取消關閉
 

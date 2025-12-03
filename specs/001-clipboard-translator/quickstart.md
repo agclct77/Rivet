@@ -45,8 +45,8 @@ New-Item -ItemType Directory -Force -Path "$env:APPDATA\Rivet"
 ### 3. 建置專案
 
 ```powershell
-# 進入專案目錄
-cd D:\Lab\Rivet
+# 進入專案目錄（請替換為您的實際路徑）
+cd <your-project-path>
 
 # 還原 NuGet 套件
 dotnet restore

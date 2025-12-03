@@ -86,7 +86,7 @@ public interface ITranslationService
 |----------|--------------|
 | 網路連線失敗 | 無法連線到翻譯服務，請檢查網路連線 |
 | API 認證失敗 | 翻譯服務認證失敗，請檢查金鑰設定 |
-| 超過字元限制 | 文字長度超過翻譯服務限制 |
+| 超過字元限制 | 翻譯字元數量不得超過5000 |
 | 服務暫時不可用 | 翻譯服務暫時無法使用，請稍後再試 |
 | 未知錯誤 | 翻譯時發生錯誤：{技術細節} |
 
@@ -113,21 +113,7 @@ public interface IConfigurationService
     ConfigurationResult GetConfiguration();
 }
 
-/// <summary>
-/// 設定結果。
-/// </summary>
-public record ConfigurationResult
-{
-    public bool IsSuccess { get; init; }
-    public AppConfiguration? Configuration { get; init; }
-    public string? ErrorMessage { get; init; }
-    
-    public static ConfigurationResult Success(AppConfiguration config)
-        => new() { IsSuccess = true, Configuration = config };
-    
-    public static ConfigurationResult Failure(string errorMessage)
-        => new() { IsSuccess = false, ErrorMessage = errorMessage };
-}
+// ConfigurationResult 定義請參考 data-model.md 第 6 節
 ```
 
 ### 行為規範
@@ -203,6 +189,72 @@ public record CommandResult
 |------|----------|----------|----------|
 | SetNext | handler 不為 null | 設定下一個處理器 | 若 handler 為 null 拋出 ArgumentNullException |
 | HandleAsync | context 不為 null | 回傳處理結果 | 處理過程中的錯誤包裝在 CommandResult 中回傳 |
+
+---
+
+## 4.1 CommandHandlerBase（指令處理器基底類別）
+
+責任鏈模式的抽象基底類別，提供通用的鏈結邏輯。
+
+### 類別定義
+
+```csharp
+namespace Rivet.Service.Commands;
+
+/// <summary>
+/// 指令處理器基底類別，實作責任鏈模式的通用邏輯。
+/// </summary>
+public abstract class CommandHandlerBase : ICommandHandler
+{
+    private ICommandHandler? _nextHandler;
+    
+    /// <inheritdoc />
+    public void SetNext(ICommandHandler handler)
+    {
+        ArgumentNullException.ThrowIfNull(handler);
+        _nextHandler = handler;
+    }
+    
+    /// <inheritdoc />
+    public async Task<CommandResult> HandleAsync(
+        CommandContext context, 
+        CancellationToken cancellationToken = default)
+    {
+        if (CanHandle(context))
+        {
+            return await ExecuteAsync(context, cancellationToken);
+        }
+        
+        return _nextHandler is not null 
+            ? await _nextHandler.HandleAsync(context, cancellationToken)
+            : CommandResult.NotHandled();
+    }
+    
+    /// <summary>
+    /// 判斷此處理器是否能處理指定的指令。
+    /// </summary>
+    /// <param name="context">指令上下文。</param>
+    /// <returns>若能處理回傳 true，否則回傳 false。</returns>
+    protected abstract bool CanHandle(CommandContext context);
+    
+    /// <summary>
+    /// 執行指令處理邏輯。
+    /// </summary>
+    /// <param name="context">指令上下文。</param>
+    /// <param name="cancellationToken">取消權杖。</param>
+    /// <returns>指令執行結果。</returns>
+    protected abstract Task<CommandResult> ExecuteAsync(
+        CommandContext context, 
+        CancellationToken cancellationToken);
+}
+```
+
+### 行為規範
+
+| 方法 | 前置條件 | 後置條件 | 例外處理 |
+|------|----------|----------|----------|
+| CanHandle | context 不為 null | 回傳是否能處理 | 不應拋出例外 |
+| ExecuteAsync | CanHandle 回傳 true | 回傳處理結果 | 錯誤包裝在 CommandResult 中 |
 
 ---
 

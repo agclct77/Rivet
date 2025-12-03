@@ -39,13 +39,24 @@ tests/
 
 ---
 
+## Phase 1.5: Test Infrastructure
+
+**Purpose**: 建立測試專案結構，符合 Constitution II Testing Standards
+
+- [ ] T007a [P] 建立 Service 測試專案 tests/Rivet.Service.Tests/Rivet.Service.Tests.csproj（NUnit, NSubstitute）
+- [ ] T007b [P] 建立 Infrastructure 測試專案 tests/Rivet.Infrastructure.Tests/Rivet.Infrastructure.Tests.csproj（NUnit）
+- [ ] T007c 設定測試專案參考：Service.Tests → Service, Infrastructure.Tests → Infrastructure, Service
+- [ ] T007d [P] 安裝 NuGet 套件至測試專案：NUnit, NUnit3TestAdapter, NSubstitute, Microsoft.NET.Test.Sdk, coverlet.collector
+
+---
+
 ## Phase 2: Foundational (Blocking Prerequisites)
 
 **Purpose**: 所有 User Story 共用的核心基礎設施
 
 **⚠️ CRITICAL**: 此階段必須完成後，才能開始任何 User Story 的實作
 
-- [ ] T008 建立 ClipboardStatus 列舉 in src/Rivet.Service/Clipboard/ClipboardStatus.cs
+- [ ] T008 建立 ClipboardStatus 列舉，位於 src/Rivet.Service/Clipboard/ClipboardStatus.cs
 - [ ] T009 [P] 建立 ClipboardContent record in src/Rivet.Service/Clipboard/ClipboardContent.cs
 - [ ] T010 [P] 建立 TargetLanguage 列舉 in src/Rivet.Service/Translation/TargetLanguage.cs
 - [ ] T011 [P] 建立 TranslationRequest record in src/Rivet.Service/Translation/TranslationRequest.cs
@@ -64,8 +75,10 @@ tests/
 - [ ] T024 實作 WindowsClipboardService in src/Rivet.Infrastructure/Clipboard/WindowsClipboardService.cs
 - [ ] T025 [P] 實作 JsonConfigurationService in src/Rivet.Infrastructure/Configuration/JsonConfigurationService.cs
 - [ ] T026 [P] 實作 GoogleTranslationService in src/Rivet.Infrastructure/Translation/GoogleTranslationService.cs
-- [ ] T027 [P] 設定 Serilog 日誌 in src/Rivet.Infrastructure/Logging/SerilogSetup.cs
+- [ ] T027 [P] 設定 Serilog 日誌 in src/Rivet.Infrastructure/Logging/SerilogSetup.cs（含 Trace 層級設定，用於記錄剪貼簿內容）
 - [ ] T028 [P] 實作 ConsoleUserNotifier in src/Rivet.Console/Notification/ConsoleUserNotifier.cs
+- [ ] T028a [P] 撰寫 ClipboardContent 單元測試 in tests/Rivet.Service.Tests/Clipboard/ClipboardContentTests.cs
+- [ ] T028b [P] 撰寫 TranslationResult 單元測試 in tests/Rivet.Service.Tests/Translation/TranslationResultTests.cs
 
 **Checkpoint**: Foundation ready - 可以開始實作各 User Story
 
@@ -83,6 +96,7 @@ tests/
 - [ ] T030 [US3] 建立 CancelCommandHandler 處理器 in src/Rivet.Service/Commands/CancelCommandHandler.cs（處理 Esc 取消操作）
 - [ ] T031 [US3] 建立 CommandChain 責任鏈管理器 in src/Rivet.Service/Commands/CommandChain.cs
 - [ ] T032 [US3] 實作 Program.cs 進入點 in src/Rivet.Console/Program.cs（DI 設定、選單流程、0.5 秒延遲結束）
+- [ ] T032a [US3] 撰寫 CommandChain 單元測試 in tests/Rivet.Service.Tests/Commands/CommandChainTests.cs
 
 **Checkpoint**: User Story 3 完成 - 可執行程式並看到選單、按 Esc 可取消關閉
 
@@ -99,6 +113,7 @@ tests/
 - [ ] T033 [US1] 建立 TranslateToChineseHandler 處理器 in src/Rivet.Service/Commands/TranslateToChineseHandler.cs（整合 IClipboardService, ITranslationService, IUserNotifier）
 - [ ] T034 [US1] 在 Program.cs 註冊 TranslateToChineseHandler 到責任鏈 in src/Rivet.Console/Program.cs
 - [ ] T035 [US1] 驗證完整流程：讀取剪貼簿 → 翻譯成繁中 → 寫入剪貼簿 → 顯示成功訊息
+- [ ] T035a [US1] 撰寫 TranslateToChineseHandler 單元測試 in tests/Rivet.Service.Tests/Commands/TranslateToChineseHandlerTests.cs
 
 **Checkpoint**: User Story 1 完成 - 可將英文翻譯成繁體中文
 
@@ -115,6 +130,7 @@ tests/
 - [ ] T036 [US2] 建立 TranslateToEnglishHandler 處理器 in src/Rivet.Service/Commands/TranslateToEnglishHandler.cs（整合 IClipboardService, ITranslationService, IUserNotifier）
 - [ ] T037 [US2] 在 Program.cs 註冊 TranslateToEnglishHandler 到責任鏈 in src/Rivet.Console/Program.cs
 - [ ] T038 [US2] 驗證完整流程：讀取剪貼簿 → 翻譯成英文 → 寫入剪貼簿 → 顯示成功訊息
+- [ ] T038a [US2] 撰寫 TranslateToEnglishHandler 單元測試 in tests/Rivet.Service.Tests/Commands/TranslateToEnglishHandlerTests.cs
 
 **Checkpoint**: User Story 2 完成 - 可將繁體中文翻譯成英文
 
@@ -123,6 +139,8 @@ tests/
 ## Phase 6: User Story 4 - 處理非純文字剪貼簿內容 (Priority: P2)
 
 **Goal**: 當剪貼簿包含非純文字內容時，顯示清楚的錯誤訊息
+
+**Note**: 考慮將 US4/US5 的驗證邏輯提取至 `CommandHandlerBase` 或共用方法，避免重複程式碼
 
 **Independent Test**: 複製一張圖片，執行程式選擇翻譯，驗證顯示「無法翻譯非純文字」訊息
 
@@ -154,12 +172,11 @@ tests/
 
 **Purpose**: 改善整體品質與完成度
 
-- [ ] T043 [P] 加入 Trace 層級日誌記錄剪貼簿內容 in src/Rivet.Service/Commands/TranslateToChineseHandler.cs
-- [ ] T044 [P] 加入 Trace 層級日誌記錄剪貼簿內容 in src/Rivet.Service/Commands/TranslateToEnglishHandler.cs
 - [ ] T045 [P] 確認設定檔不存在時顯示正確錯誤訊息（含預期路徑）
 - [ ] T046 [P] 確認金鑰檔不存在時顯示正確錯誤訊息（含路徑）
 - [ ] T047 處理翻譯服務連線錯誤，保留原始剪貼簿內容
 - [ ] T048 [P] 程式碼清理與重構
+- [ ] T048a 驗證責任鏈擴充性：確認新增指令處理器只需新增檔案，不需修改既有程式碼
 - [ ] T049 執行 quickstart.md 驗證流程
 - [ ] T050 建立 Windows 捷徑說明文件 in docs/setup-shortcut.md
 - [ ] T051 [P] 撰寫 README.md in src/README.md（專案說明、安裝步驟、使用方式、專案結構）

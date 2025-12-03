@@ -66,8 +66,8 @@ src/
 │
 ├── Rivet.Service/           # 業務邏輯專案
 │   ├── Commands/            # 責任鏈指令處理
-│   │   ├── ICommand.cs
 │   │   ├── ICommandHandler.cs
+│   │   ├── CommandHandlerBase.cs
 │   │   ├── CommandChain.cs
 │   │   ├── TranslateToChineseHandler.cs
 │   │   └── TranslateToEnglishHandler.cs

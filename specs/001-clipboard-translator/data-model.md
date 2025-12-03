@@ -73,6 +73,7 @@ public record ClipboardContent
 
 ### 驗證規則
 - SourceText 不得為 null 或空白
+- SourceText 長度不得超過 5000 字元
 - TargetLanguage 必須為有效的列舉值
 
 ```csharp
@@ -212,6 +213,40 @@ public record ServiceConfiguration
 public record GoogleTranslationConfig
 {
     public required string KeyFilePath { get; init; }
+}
+```
+
+---
+
+## 6. ConfigurationResult（設定結果）
+
+代表設定讀取操作的結果。
+
+### 欄位
+
+| 欄位名稱 | 型別 | 必填 | 說明 |
+|----------|------|------|------|
+| IsSuccess | bool | ✅ | 是否成功 |
+| Configuration | AppConfiguration? | ❌ | 設定內容（成功時有值） |
+| ErrorMessage | string? | ❌ | 錯誤訊息（失敗時有值） |
+
+### 狀態轉換
+- 成功：IsSuccess = true, Configuration 有值, ErrorMessage 為 null
+- 失敗：IsSuccess = false, Configuration 為 null, ErrorMessage 有值
+
+### 工廠方法
+```csharp
+public record ConfigurationResult
+{
+    public bool IsSuccess { get; init; }
+    public AppConfiguration? Configuration { get; init; }
+    public string? ErrorMessage { get; init; }
+    
+    public static ConfigurationResult Success(AppConfiguration config)
+        => new() { IsSuccess = true, Configuration = config };
+    
+    public static ConfigurationResult Failure(string errorMessage)
+        => new() { IsSuccess = false, ErrorMessage = errorMessage };
 }
 ```
 

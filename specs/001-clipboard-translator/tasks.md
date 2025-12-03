@@ -29,13 +29,13 @@ tests/
 
 **Purpose**: 專案初始化與基本結構
 
-- [ ] T001 建立方案檔 src/Rivet.sln
-- [ ] T002 [P] 建立 Console 專案 src/Rivet.Console/Rivet.Console.csproj（.NET 8, UseWindowsForms, [STAThread]）
-- [ ] T003 [P] 建立 Service 專案 src/Rivet.Service/Rivet.Service.csproj（.NET 8 類別庫）
-- [ ] T004 [P] 建立 Infrastructure 專案 src/Rivet.Infrastructure/Rivet.Infrastructure.csproj（.NET 8 類別庫）
-- [ ] T005 設定專案參考：Console → Service, Console → Infrastructure, Infrastructure → Service
-- [ ] T006 [P] 安裝 NuGet 套件至 Rivet.Console：Spectre.Console, Microsoft.Extensions.DependencyInjection, Serilog, Serilog.Sinks.File
-- [ ] T007 [P] 安裝 NuGet 套件至 Rivet.Infrastructure：Google.Cloud.Translation.V2, Microsoft.Extensions.DependencyInjection.Abstractions
+- [x] T001 建立方案檔 src/Rivet.sln
+- [x] T002 [P] 建立 Console 專案 src/Rivet.Console/Rivet.Console.csproj（.NET 8, UseWindowsForms, [STAThread]）
+- [x] T003 [P] 建立 Service 專案 src/Rivet.Service/Rivet.Service.csproj（.NET 8 類別庫）
+- [x] T004 [P] 建立 Infrastructure 專案 src/Rivet.Infrastructure/Rivet.Infrastructure.csproj（.NET 8 類別庫）
+- [x] T005 設定專案參考：Console → Service, Console → Infrastructure, Infrastructure → Service
+- [x] T006 [P] 安裝 NuGet 套件至 Rivet.Console：Spectre.Console, Microsoft.Extensions.DependencyInjection, Serilog, Serilog.Sinks.File
+- [x] T007 [P] 安裝 NuGet 套件至 Rivet.Infrastructure：Google.Cloud.Translation.V2, Microsoft.Extensions.DependencyInjection.Abstractions
 
 ---
 
@@ -43,10 +43,10 @@ tests/
 
 **Purpose**: 建立測試專案結構，符合 Constitution II Testing Standards
 
-- [ ] T007a [P] 建立 Service 測試專案 tests/Rivet.Service.Tests/Rivet.Service.Tests.csproj（NUnit, NSubstitute）
-- [ ] T007b [P] 建立 Infrastructure 測試專案 tests/Rivet.Infrastructure.Tests/Rivet.Infrastructure.Tests.csproj（NUnit）
-- [ ] T007c 設定測試專案參考：Service.Tests → Service, Infrastructure.Tests → Infrastructure, Service
-- [ ] T007d [P] 安裝 NuGet 套件至測試專案：NUnit, NUnit3TestAdapter, NSubstitute, Microsoft.NET.Test.Sdk, coverlet.collector
+- [x] T007a [P] 建立 Service 測試專案 tests/Rivet.Service.Tests/Rivet.Service.Tests.csproj（NUnit, NSubstitute）
+- [x] T007b [P] 建立 Infrastructure 測試專案 tests/Rivet.Infrastructure.Tests/Rivet.Infrastructure.Tests.csproj（NUnit）
+- [x] T007c 設定測試專案參考：Service.Tests → Service, Infrastructure.Tests → Infrastructure, Service
+- [x] T007d [P] 安裝 NuGet 套件至測試專案：NUnit, NUnit3TestAdapter, NSubstitute, Microsoft.NET.Test.Sdk, coverlet.collector
 
 ---
 

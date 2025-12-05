@@ -75,19 +75,27 @@ internal class Program
             var result = await commandChain.ExecuteAsync(context);
 
             // 根據結果顯示訊息
+            var notifier = serviceProvider.GetRequiredService<IUserNotifier>();
+
             if (result.IsHandled)
             {
                 if (result.IsSuccess && result.Message is not null)
                 {
-                    var notifier = serviceProvider.GetRequiredService<IUserNotifier>();
                     notifier.ShowSuccess(result.Message);
                 }
                 else if (!result.IsSuccess && result.Message is not null)
                 {
-                    var notifier = serviceProvider.GetRequiredService<IUserNotifier>();
                     notifier.ShowError(result.Message);
                 }
-                // 若 Message 為 null（取消操作），不顯示任何訊息
+                else if (result.Message is null)
+                {
+                    // 取消操作，不顯示訊息
+                }
+            }
+            else
+            {
+                // 沒有任何處理器處理此命令
+                notifier.ShowError("未知命令");
             }
 
             // 延遲 0.5 秒後結束

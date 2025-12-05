@@ -53,8 +53,30 @@ public class CommandChain
     /// </summary>
     private static void AppendToChain(ICommandHandler current, ICommandHandler handler)
     {
-        // 透過反射存取受保護的 _nextHandler 欄位
-        // 或者使用 SetNext 方法
-        current.SetNext(handler);
+        // 使用反射獲取 _nextHandler 欄位，以判斷是否已有下一個處理器
+        var nextHandlerField = current.GetType().BaseType?.GetField(
+            "_nextHandler",
+            System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance
+        );
+
+        if (nextHandlerField == null)
+        {
+            // 無法通過反射存取，直接使用 SetNext
+            current.SetNext(handler);
+            return;
+        }
+
+        var nextHandler = (ICommandHandler?)nextHandlerField.GetValue(current);
+
+        if (nextHandler == null)
+        {
+            // 找到末端，設置新處理器
+            current.SetNext(handler);
+        }
+        else
+        {
+            // 繼續遞迴找末端
+            AppendToChain(nextHandler, handler);
+        }
     }
 }

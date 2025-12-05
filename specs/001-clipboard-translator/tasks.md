@@ -160,10 +160,10 @@ tests/
 
 ### Implementation for User Story 5
 
-- [ ] T041 [US5] 在 TranslateToChineseHandler 加入空白檢查邏輯 in src/Rivet.Service/Commands/TranslateToChineseHandler.cs
-- [ ] T042 [US5] 在 TranslateToEnglishHandler 加入空白檢查邏輯 in src/Rivet.Service/Commands/TranslateToEnglishHandler.cs
+- [x] T041 [US5] 在 TranslateToChineseHandler 加入空白檢查邏輯 in src/Rivet.Service/Commands/TranslateToChineseHandler.cs
+- [x] T042 [US5] 在 TranslateToEnglishHandler 加入空白檢查邏輯 in src/Rivet.Service/Commands/TranslateToEnglishHandler.cs
 
-**Checkpoint**: User Story 5 完成 - 空白剪貼簿顯示正確錯誤訊息
+**Checkpoint**: User Story 5 完成 - 空白剪貼簿顯示正確錯誤訊息 ✅
 
 ---
 
@@ -225,6 +225,7 @@ Phase 6 (US4)   Phase 7 (US5) ◄─── 可平行
 ### Parallel Opportunities
 
 **Phase 1 (Setup)**:
+
 ```bash
 # 可平行：T002, T003, T004
 Task: "建立 Console 專案"
@@ -237,6 +238,7 @@ Task: "安裝 NuGet 套件至 Infrastructure"
 ```
 
 **Phase 2 (Foundational)**:
+
 ```bash
 # 可平行：T009-T017 (所有 models 和 records)
 Task: "建立 ClipboardContent record"
@@ -260,6 +262,7 @@ Task: "實作 ConsoleUserNotifier"
 ```
 
 **User Stories 4 & 5 可平行**:
+
 ```bash
 Task: "US4 非純文字檢查"
 Task: "US5 空白檢查"

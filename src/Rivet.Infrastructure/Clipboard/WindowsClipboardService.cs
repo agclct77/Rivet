@@ -52,47 +52,73 @@ public class WindowsClipboardService : IClipboardService
 
             try
             {
+                // 先嘗試取得 Unicode 文字
                 IntPtr hClipboardData = GetClipboardData(CF_UNICODETEXT);
-                if (hClipboardData == IntPtr.Zero)
+                if (hClipboardData != IntPtr.Zero)
                 {
-                    // 剪貼簿中沒有 Unicode 文字
+                    // 有 Unicode 文字格式，嘗試讀取
+                    IntPtr pLockedBuffer = GlobalLock(hClipboardData);
+                    if (pLockedBuffer == IntPtr.Zero)
+                    {
+                        return ClipboardContent.NonText();
+                    }
+
+                    try
+                    {
+                        // 取得緩衝區大小
+                        IntPtr size = GlobalSize(hClipboardData);
+                        int byteCount = (int)size.ToInt64();
+
+                        if (byteCount <= 0)
+                        {
+                            return ClipboardContent.Empty();
+                        }
+
+                        // 讀取 Unicode 字串
+                        byte[] buffer = new byte[byteCount];
+                        Marshal.Copy(pLockedBuffer, buffer, 0, byteCount);
+
+                        // 轉換為字串（去除末尾的 null 終止符）
+                        string text = Encoding.Unicode.GetString(buffer).TrimEnd('\0');
+
+                        if (string.IsNullOrWhiteSpace(text))
+                        {
+                            return ClipboardContent.Empty();
+                        }
+
+                        return ClipboardContent.WithText(text);
+                    }
+                    finally
+                    {
+                        GlobalUnlock(hClipboardData);
+                    }
+                }
+                else
+                {
+                    // 沒有 Unicode 文字格式
+                    // 檢查是否有其他格式（如圖片）
+                    // CF_DIB (Device Independent Bitmap) = 8
+                    const int CF_DIB = 8;
+
+                    if (GetClipboardData(CF_DIB) != IntPtr.Zero)
+                    {
+                        // 有圖片格式
+                        return ClipboardContent.NonText();
+                    }
+
+                    // 也檢查 CF_DIBV5（較新的位圖格式）
+                    // CF_DIBV5 = 17
+                    const int CF_DIBV5 = 17;
+
+                    if (GetClipboardData(CF_DIBV5) != IntPtr.Zero)
+                    {
+                        // 有位圖格式
+                        return ClipboardContent.NonText();
+                    }
+
+                    // 檢查是否有任何可用的格式
+                    // 若都沒有，代表剪貼簿是空的
                     return ClipboardContent.Empty();
-                }
-
-                IntPtr pLockedBuffer = GlobalLock(hClipboardData);
-                if (pLockedBuffer == IntPtr.Zero)
-                {
-                    return ClipboardContent.NonText();
-                }
-
-                try
-                {
-                    // 取得緩衝區大小
-                    IntPtr size = GlobalSize(hClipboardData);
-                    int byteCount = (int)size.ToInt64();
-
-                    if (byteCount <= 0)
-                    {
-                        return ClipboardContent.Empty();
-                    }
-
-                    // 讀取 Unicode 字串
-                    byte[] buffer = new byte[byteCount];
-                    Marshal.Copy(pLockedBuffer, buffer, 0, byteCount);
-
-                    // 轉換為字串（去除末尾的 null 終止符）
-                    string text = Encoding.Unicode.GetString(buffer).TrimEnd('\0');
-
-                    if (string.IsNullOrEmpty(text))
-                    {
-                        return ClipboardContent.Empty();
-                    }
-
-                    return ClipboardContent.WithText(text);
-                }
-                finally
-                {
-                    GlobalUnlock(hClipboardData);
                 }
             }
             finally

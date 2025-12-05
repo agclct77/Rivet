@@ -1,4 +1,3 @@
-````markdown
 # Tasks: 剪貼簿翻譯工具
 
 **Input**: Design documents from `/specs/001-clipboard-translator/`
@@ -110,10 +109,10 @@ tests/
 
 ### Implementation for User Story 1
 
-- [ ] T033 [US1] 建立 TranslateToChineseHandler 處理器 in src/Rivet.Service/Commands/TranslateToChineseHandler.cs（整合 IClipboardService, ITranslationService, IUserNotifier）
-- [ ] T034 [US1] 在 Program.cs 註冊 TranslateToChineseHandler 到責任鏈 in src/Rivet.Console/Program.cs
-- [ ] T035 [US1] 驗證完整流程：讀取剪貼簿 → 翻譯成繁中 → 寫入剪貼簿 → 顯示成功訊息
-- [ ] T035a [US1] 撰寫 TranslateToChineseHandler 單元測試 in tests/Rivet.Service.Tests/Commands/TranslateToChineseHandlerTests.cs
+- [x] T033 [US1] 建立 TranslateToChineseHandler 處理器 in src/Rivet.Service/Commands/TranslateToChineseHandler.cs（整合 IClipboardService, ITranslationService, IUserNotifier）
+- [x] T034 [US1] 在 Program.cs 註冊 TranslateToChineseHandler 到責任鏈 in src/Rivet.Console/Program.cs
+- [x] T035 [US1] 驗證完整流程：讀取剪貼簿 → 翻譯成繁中 → 寫入剪貼簿 → 顯示成功訊息
+- [x] T035a [US1] 撰寫 TranslateToChineseHandler 單元測試 in tests/Rivet.Service.Tests/Commands/TranslateToChineseHandlerTests.cs
 
 **Checkpoint**: User Story 1 完成 - 可將英文翻譯成繁體中文
 
@@ -298,5 +297,3 @@ Task: "US5 空白檢查"
 - 每個 task 或邏輯群組完成後 commit
 - 在任何 Checkpoint 可停下來獨立驗證該 Story
 - 避免：模糊的 task、同檔案衝突、破壞獨立性的跨 Story 依賴
-
-````

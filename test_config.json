@@ -1,0 +1,7 @@
+{
+    "services": {
+        "googleTranslation": {
+            "keyFilePath": "C:\\Users\\yun\\AppData\\Roaming\\Rivet\\google-key.json"
+        }
+    }
+}

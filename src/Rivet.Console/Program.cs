@@ -30,7 +30,15 @@ internal class Program
 
             // 註冊所有命令處理器
             commandChain.AddHandler(new CancelCommandHandler());
-            // 其他處理器會在後續階段新增（Phase 4, 5）
+
+            // Phase 4: 翻譯成繁體中文
+            var translateToChineseService = new Rivet.Service.Commands.TranslateToChineseHandler(
+                serviceProvider.GetRequiredService<IClipboardService>(),
+                serviceProvider.GetRequiredService<ITranslationService>(),
+                serviceProvider.GetRequiredService<IUserNotifier>()
+            );
+            commandChain.AddHandler(translateToChineseService);
+            // 其他處理器會在後續階段新增（Phase 5）
 
             // 顯示主選單並取得使用者選擇
             var selectedCommand = MainMenu.DisplayAndGetChoice();
@@ -79,10 +87,27 @@ internal class Program
         // 日誌設定
         SerilogSetup.Initialize();
 
-        // 註冊服務
-        services.AddSingleton<IClipboardService, WindowsClipboardService>();
-        services.AddSingleton<ITranslationService, GoogleTranslationService>();
+        // 先註冊配置服務以便讀取金鑰路徑
         services.AddSingleton<IConfigurationService, JsonConfigurationService>();
+
+        // 使用工廠註冊 GoogleTranslationService，以便從配置取得金鑰路徑
+        services.AddSingleton<ITranslationService>(provider =>
+        {
+            var configService = provider.GetRequiredService<IConfigurationService>();
+            var configResult = configService.GetConfiguration();
+
+            if (!configResult.IsSuccess)
+            {
+                // 若設定失敗，使用空字符串（之後會在 TranslateAsync 時報錯）
+                // 這樣確保服務容器可以成功建立
+                return new GoogleTranslationService(string.Empty);
+            }
+
+            return new GoogleTranslationService(configResult.Configuration!.Services.GoogleTranslation.KeyFilePath);
+        });
+
+        // 註冊其他服務
+        services.AddSingleton<IClipboardService, WindowsClipboardService>();
         services.AddSingleton<IUserNotifier, ConsoleUserNotifier>();
     }
 }

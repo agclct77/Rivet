@@ -38,7 +38,14 @@ internal class Program
                 serviceProvider.GetRequiredService<IUserNotifier>()
             );
             commandChain.AddHandler(translateToChineseService);
-            // 其他處理器會在後續階段新增（Phase 5）
+
+            // Phase 5: 翻譯成英文
+            var translateToEnglishService = new Rivet.Service.Commands.TranslateToEnglishHandler(
+                serviceProvider.GetRequiredService<IClipboardService>(),
+                serviceProvider.GetRequiredService<ITranslationService>(),
+                serviceProvider.GetRequiredService<IUserNotifier>()
+            );
+            commandChain.AddHandler(translateToEnglishService);
 
             // 顯示主選單並取得使用者選擇
             var selectedCommand = MainMenu.DisplayAndGetChoice();

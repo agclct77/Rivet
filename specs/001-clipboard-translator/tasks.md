@@ -126,10 +126,10 @@ tests/
 
 ### Implementation for User Story 2
 
-- [ ] T036 [US2] 建立 TranslateToEnglishHandler 處理器 in src/Rivet.Service/Commands/TranslateToEnglishHandler.cs（整合 IClipboardService, ITranslationService, IUserNotifier）
-- [ ] T037 [US2] 在 Program.cs 註冊 TranslateToEnglishHandler 到責任鏈 in src/Rivet.Console/Program.cs
-- [ ] T038 [US2] 驗證完整流程：讀取剪貼簿 → 翻譯成英文 → 寫入剪貼簿 → 顯示成功訊息
-- [ ] T038a [US2] 撰寫 TranslateToEnglishHandler 單元測試 in tests/Rivet.Service.Tests/Commands/TranslateToEnglishHandlerTests.cs
+- [x] T036 [US2] 建立 TranslateToEnglishHandler 處理器 in src/Rivet.Service/Commands/TranslateToEnglishHandler.cs（整合 IClipboardService, ITranslationService, IUserNotifier）
+- [x] T037 [US2] 在 Program.cs 註冊 TranslateToEnglishHandler 到責任鏈 in src/Rivet.Console/Program.cs
+- [x] T038 [US2] 驗證完整流程：讀取剪貼簿 → 翻譯成英文 → 寫入剪貼簿 → 顯示成功訊息
+- [x] T038a [US2] 撰寫 TranslateToEnglishHandler 單元測試 in tests/Rivet.Service.Tests/Commands/TranslateToEnglishHandlerTests.cs
 
 **Checkpoint**: User Story 2 完成 - 可將繁體中文翻譯成英文
 

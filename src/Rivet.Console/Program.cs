@@ -16,7 +16,21 @@ namespace Rivet.Console;
 internal class Program
 {
     [STAThread]
-    private static async Task Main(string[] args)
+    private static void Main(string[] args)
+    {
+        try
+        {
+            // 使用 RunSynchronously 執行非同步 Main 邏輯
+            MainAsync(args).Wait();
+        }
+        catch (Exception ex)
+        {
+            System.Console.WriteLine($"錯誤：{ex.Message}");
+            Task.Delay(500).Wait();
+        }
+    }
+
+    private static async Task MainAsync(string[] args)
     {
         try
         {

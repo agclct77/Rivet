@@ -135,7 +135,7 @@ tests/
 
 ---
 
-## Phase 6: User Story 4 - 處理非純文字剪貼簿內容 (Priority: P2)
+## Phase 6: User Story 4 - 處理非純文字剪貼簿內容 (Priority: P2) ✅
 
 **Goal**: 當剪貼簿包含非純文字內容時，顯示清楚的錯誤訊息
 
@@ -145,10 +145,10 @@ tests/
 
 ### Implementation for User Story 4
 
-- [ ] T039 [US4] 在 TranslateToChineseHandler 加入非純文字檢查邏輯 in src/Rivet.Service/Commands/TranslateToChineseHandler.cs
-- [ ] T040 [US4] 在 TranslateToEnglishHandler 加入非純文字檢查邏輯 in src/Rivet.Service/Commands/TranslateToEnglishHandler.cs
+- [x] T039 [US4] 在 TranslateToChineseHandler 加入非純文字檢查邏輯 in src/Rivet.Service/Commands/TranslateToChineseHandler.cs
+- [x] T040 [US4] 在 TranslateToEnglishHandler 加入非純文字檢查邏輯 in src/Rivet.Service/Commands/TranslateToEnglishHandler.cs
 
-**Checkpoint**: User Story 4 完成 - 非純文字內容顯示正確錯誤訊息
+**Checkpoint**: User Story 4 完成 - 非純文字內容顯示正確錯誤訊息 ✅
 
 ---
 

@@ -56,10 +56,13 @@ public class TranslateToEnglishHandler : CommandHandlerBase
         CommandContext context,
         CancellationToken cancellationToken)
     {
+        // 保存原始剪貼簿內容，以便在翻譯失敗時恢復
+        var originalContent = _clipboardService.GetContent();
+
         try
         {
             // 1. 讀取剪貼簿內容
-            var clipboardContent = _clipboardService.GetContent();
+            var clipboardContent = originalContent;
 
             // 2. 驗證剪貼簿內容
             // 檢查非純文字內容
@@ -88,6 +91,7 @@ public class TranslateToEnglishHandler : CommandHandlerBase
             // 4. 檢查翻譯結果
             if (!translationResult.IsSuccess)
             {
+                // 翻譯失敗時，保留原始剪貼簿內容
                 return CommandResult.Failed(translationResult.ErrorMessage!);
             }
 
@@ -99,7 +103,7 @@ public class TranslateToEnglishHandler : CommandHandlerBase
         }
         catch (Exception ex)
         {
-            // 捕捉未預期的錯誤並回傳失敗結果
+            // 捕捉未預期的錯誤時，保留原始剪貼簿內容
             return CommandResult.Failed($"翻譯時發生錯誤：{ex.Message}");
         }
     }

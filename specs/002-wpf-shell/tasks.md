@@ -68,6 +68,7 @@ description: "Tasks for Rivet WPF 手動啟動剪貼簿翻譯"
 
 - [ ] T016 [P] [US2] 新增剪貼簿空白/非文字情境測試 `tests/Rivet.WPF.Tests/ClipboardErrorTests.cs`（FlaUI 驗證錯誤提示、未改寫剪貼簿）
 - [ ] T017 [P] [US2] 新增翻譯服務失敗情境測試 `tests/Rivet.WPF.Tests/TranslationFailureTests.cs`（模擬服務例外，驗證 UI 可重試）
+- [ ] T030 [P] [US2] 新增 RTF/HTML 降階提示測試 `tests/Rivet.WPF.Tests/ClipboardFormatDowngradeTests.cs`（驗證僅取純文字且提示，剪貼簿未被破壞）
 
 ### Implementation for User Story 2
 
@@ -75,6 +76,8 @@ description: "Tasks for Rivet WPF 手動啟動剪貼簿翻譯"
 - [ ] T019 [US2] 實作 WPF 專用通知器 `src/Rivet.WPF/Notification/WpfUserNotifier.cs`（顯示 zh-TW 訊息區/對話框，取代 ConsoleNotifier）
 - [ ] T020 [US2] 建立錯誤訊息對應與 UI 呈現 `src/Rivet.WPF/MainWindow.xaml`、`src/Rivet.WPF/Resources/ErrorMessages.resx`（含剪貼簿鎖定、回寫失敗提示）
 - [ ] T021 [US2] 加入剪貼簿讀寫重試與防凍結處理 `src/Rivet.WPF/Clipboard/ClipboardAdapter.cs`（UI 執行緒寫回、背景讀取，含退避重試）
+- [ ] T031 [US2] 強化 RTF/HTML 降階處理與提示 `src/Rivet.WPF/ViewModels/MainWindowViewModel.cs`、`src/Rivet.WPF/MainWindow.xaml`（保留原剪貼簿、UI 顯示降階訊息）
+- [ ] T032 [US2] 完成 UI 可及性基線（鍵盤操作、焦點樣式、對比度與字級）`src/Rivet.WPF/MainWindow.xaml`、`src/Rivet.WPF/Resources/`（符合 WCAG 2.1 AA 基線）
 
 **Checkpoint**: User Story 2 可獨立驗收（錯誤情境全覆蓋）。
 
@@ -108,6 +111,9 @@ description: "Tasks for Rivet WPF 手動啟動剪貼簿翻譯"
 - [ ] T027 清理重複程式與可讀性調整 `src/Rivet.WPF/`（VM/命令/通知器重構、移除未使用相依）
 - [ ] T028 [P] 擴充文件與驗收檢核 `specs/002-wpf-shell/quickstart.md`、`specs/002-wpf-shell/checklists/requirements.md`（核對 FR/SC 與實作）
 - [ ] T029 執行 quickstart 驗證與最終冒煙測試（依 quickstart.md 流程）
+- [ ] T033 [P] 建立性能驗證腳本/測試 `tests/Rivet.WPF.Tests/PerformanceVerification.cs`（檢查啟動與翻譯延遲 p95、記憶體峰值 <150MB，含閾值斷言）
+- [ ] T034 建立覆蓋率報告流程並設定 80% 驗收 gate（整合 `dotnet test /p:CollectCoverage=true` 或等效，於 CI/本地輸出報告並在驗收清單記錄）
+- [ ] T035 完成可及性檢核清單/測試（對比、鍵盤/焦點操作、最小字級，必要時採 FlaUI 驗證並記錄例外）
 
 ---
 

@@ -1,14 +1,19 @@
 # Research Findings
 
-## DI 共用註冊與可重用性
-- Decision: 抽出 `IServiceCollection` 擴充方法（預計命名 `AddRivetCoreServices`）封裝 Serilog 初始化、組態服務、翻譯服務與剪貼簿服務的註冊，由 Console 與 WPF 共用；UI 端僅需額外註冊對應的 `IUserNotifier` 與 UI 入口。
-- Rationale: 可避免複製 `Program.cs` 的 DI 腳本，確保金鑰讀取、日誌路徑與翻譯服務配置一致，降低維護成本並符合憲章的一致性要求。
-- Alternatives considered: (1) WPF 專案直接複製 Console 的 ConfigureServices，易出現設定漂移；(2) 引入 Generic Host 重構整體啟動流程，對現有 Console 影響大且非 M1 必要。
+## WPF UI 自動化測試選型
+- Decision: 採用 FlaUI(UIA3) 搭配 NUnit，在 `tests/Rivet.WPF.Tests` 建立端到端 UI 測試；測試類別以 `[Apartment(ApartmentState.STA)]`、`Parallelizable(ParallelScope.None)` 確保單執行緒並與現有測試框架一致。
+- Rationale: FlaUI 直接基於 UI Automation，對 WPF 控制項支援成熟、相容 .NET 8，無需額外驅動服務，與既有 NUnit 生態整合簡單且在 CI 上可重現。
+- Alternatives considered: WinAppDriver/Appium（需額外服務且已停維護，易 flake）、Playwright+WinAppDriver（間接依賴，維護成本高）、XamlTest/MSTest 耦合較深、TestStack.White 已過時。
 
-## WPF 執行緒與剪貼簿/翻譯流程
-- Decision: 剪貼簿讀寫保持在 UI STA 執行緒；翻譯呼叫與網路等待以 `async/await` 包裝並在背景工作（例如 `Task.Run` 包裹翻譯呼叫）執行，完畢後透過 Dispatcher 回到 UI 執行緒更新結果與狀態。錯誤提示與剪貼簿回寫也在 UI 執行緒完成以避免 STA 衝突。
-- Rationale: Win32 剪貼簿 API 需要 STA，直接在 ThreadPool 呼叫可能拋出 COM/剪貼簿開啟失敗；翻譯過程可能阻塞，需移出 UI 執行緒以維持視窗可回應；Dispatcher 確保 UI 控制項與剪貼簿設定同步且不中斷。
-- Alternatives considered: (1) 全流程留在 UI 執行緒，當翻譯延遲時 UI 會卡頓；(2) 全流程丟到 ThreadPool，會破壞 STA 要求並導致剪貼簿操作失敗。
+## Generic Host 與 DI 共用（僅供 WPF，Console 不再相容）
+- Decision: 建立 WPF 專用的組合根（例如 `RivetHostBuilder`）使用 `Host.CreateDefaultBuilder`/`UseSerilog`，載入 `%AppData%/Rivet/config.json`，統一註冊 Service/Infrastructure/Logging；`App.xaml.cs` 在 `Main` 建立/啟動 Host，`OnExit` 停止並釋放。未來 Console 作廢，不再要求共用或相容。
+- Rationale: 單一組合根避免多份設定漂移；Serilog/設定一次配置即被 WPF 使用；Host 生命週期管理與 Options/Logging 整合優於手工容器，且可移除 Console 遺留耦合，專注 WPF。
+- Alternatives considered: (1) 只抽 `IServiceCollection` 擴充方法但不使用 Host，需手動管理 logging/設定生命週期；(2) 保留 Console 相容的雙路註冊，會增加維護成本且與「Console 作廢」目標相違；(3) HostApplicationBuilder 語法簡潔但與 Host.CreateDefaultBuilder 差異不大，可視實作偏好擇一。
+
+## 剪貼簿與翻譯流程（STA 安全）
+- Decision: UI 按鈕 `async/await` 觸發；背景任務處理剪貼簿讀取（含 3–5 次重試）與翻譯呼叫，完成後透過 Dispatcher 回 UI 更新狀態並在 UI 執行緒寫回剪貼簿（同樣重試）。空白/非文字/圖片情境直接回傳友善訊息，不崩潰。
+- Rationale: 剪貼簿要求 STA，寫回需在 UI 執行緒；翻譯/網路 I/O 需移出 UI 以避免凍結；重試可減少剪貼簿被鎖定時的失敗；流程符合憲章的可回應性與穩定性。
+- Alternatives considered: (1) 全流程在 UI 執行緒導致延遲卡頓；(2) 全流程 ThreadPool 破壞 STA 導致剪貼簿失敗；(3) 不做重試會在剪貼簿佔用時大量失敗。
 
 ## WPF 通知策略
 - Decision: 為 WPF 實作 `IUserNotifier`（例如狀態區塊 + MessageBox/對話框），呈現成功/錯誤訊息並避免使用 ConsoleNotifier；UI 應可顯示持續訊息與錯誤重試提示。

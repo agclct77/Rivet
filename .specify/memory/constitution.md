@@ -1,25 +1,24 @@
 <!--
   Sync Impact Report
   ===================
-  Version Change: N/A → 1.0.0 (Initial creation)
+  Version Change: 1.0.0 → 1.1.0
   
-  Added Principles:
-  - I. Code Quality
-  - II. Testing Standards
-  - III. User Experience Consistency
-  - IV. Performance Requirements
-  - V. Language Policy
-  - VI. Git Commit Convention
+  Modified Principles:
+  - II. Testing Standards (domain-specific integration coverage)
+  - IV. Performance Requirements (desktop latency and resource thresholds)
+  - Development Workflow (constitution checks and zh-TW artifacts clarified)
   
   Added Sections:
-  - Core Principles (6 principles)
-  - Development Workflow
-  - Governance
+  - None
+  
+  Removed Sections:
+  - None
   
   Templates Status:
-  - plan-template.md: ✅ Compatible (Constitution Check section exists)
-  - spec-template.md: ✅ Compatible (Requirements section aligns)
-  - tasks-template.md: ✅ Compatible (Phase structure aligns)
+  - plan-template.md: ✅ Updated (constitution gates and language reminders)
+  - spec-template.md: ✅ Updated (zh-TW plus performance acceptance prompts)
+  - tasks-template.md: ✅ Updated (tests mandated per constitution)
+  - commands/: ⚠ Not present (no command templates found to update)
   
   Follow-up TODOs: None
 -->
@@ -47,7 +46,7 @@ Testing is a NON-NEGOTIABLE requirement for this project:
 - **Coverage Requirement**: New features MUST include tests. Minimum test coverage for new code: 80%.
 - **Test Types**:
   - Unit tests: MUST cover all business logic and utility functions.
-  - Integration tests: REQUIRED for API endpoints, database operations, and external service interactions.
+  - Integration tests: REQUIRED for hotkey invocation, clipboard access, translation pipeline, and external service interactions.
   - Contract tests: REQUIRED when introducing or modifying public interfaces.
 - **Test Quality**: Tests MUST be deterministic, isolated, and fast. Flaky tests MUST be fixed or removed immediately.
 - **Pre-merge Validation**: All tests MUST pass before code can be merged. No bypassing CI checks.
@@ -70,13 +69,13 @@ All user-facing features MUST maintain a consistent experience:
 
 All features MUST meet performance standards:
 
-- **Response Time**: API endpoints MUST respond within 200ms (p95) under normal load.
-- **Memory Efficiency**: Memory usage MUST remain stable; no memory leaks in long-running processes.
-- **Resource Management**: All acquired resources (connections, file handles, etc.) MUST be properly released.
-- **Startup Performance**: Application cold start MUST complete within defined thresholds for the platform.
-- **Monitoring**: Performance-critical paths MUST include instrumentation for monitoring and alerting.
+- **Hotkey Response**: Hotkey invocation to menu display MUST be ≤300ms (p95) on supported Windows hosts.
+- **Translation Cycle**: Clipboard-to-output latency MUST be ≤1500ms (p95) when Google Translation is reachable; degraded paths MUST still provide status feedback.
+- **Memory Efficiency**: Memory usage after a translation cycle MUST remain under 150MB with no leaks in long-running use.
+- **Resource Management**: All acquired resources (clipboard handles, translation clients, file handles) MUST be released explicitly.
+- **Monitoring**: Performance-critical paths (hotkey handling, translation requests) MUST include instrumentation and logs sufficient to trace latency and failures without leaking sensitive clipboard content.
 
-**Rationale**: Performance directly impacts user satisfaction and system reliability. Proactive performance management prevents degradation over time.
+**Rationale**: Fast hotkey responsiveness and translation delivery are the product value. Guarding resource use and latency keeps the desktop experience smooth and predictable.
 
 ### V. Language Policy
 
@@ -117,10 +116,10 @@ All commits MUST follow these conventions:
 All development work MUST follow this workflow:
 
 1. **Specification First**: Features MUST have an approved `spec.md` before implementation begins.
-2. **Plan Before Code**: Implementation plans (`plan.md`) MUST be created and reviewed before coding.
-3. **Task Breakdown**: Work MUST be broken into trackable tasks (`tasks.md`) with clear dependencies.
+2. **Plan Before Code**: Implementation plans (`plan.md`) MUST be created and reviewed before coding; use speckit automation where available.
+3. **Task Breakdown**: Work MUST be broken into trackable tasks (`tasks.md`) with clear dependencies and MUST reflect required tests to meet coverage goals.
 4. **Branch Strategy**: Feature branches MUST follow naming convention: `<ticket-id>-<feature-name>` (e.g., `DG-2-hotkey-listener`).
-5. **Review Gates**: All artifacts (specs, plans, code) MUST pass peer review.
+5. **Review Gates**: All artifacts (specs, plans, code) MUST pass peer review, including Constitution Check items (language policy, test coverage, performance acceptance, commit/branch rules).
 6. **Continuous Integration**: All commits MUST pass automated checks before merge.
 
 ## Governance
@@ -140,4 +139,4 @@ This constitution establishes the foundational rules for the Rivet project:
   - PATCH: Clarifications and wording improvements.
 - **Exception Handling**: Deviations from constitutional principles MUST be documented with justification in the relevant PR/issue.
 
-**Version**: 1.0.0 | **Ratified**: 2025-12-04 | **Last Amended**: 2025-12-04
+**Version**: 1.1.0 | **Ratified**: 2025-12-04 | **Last Amended**: 2025-12-10

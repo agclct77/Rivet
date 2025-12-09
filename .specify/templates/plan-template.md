@@ -1,5 +1,7 @@
 # Implementation Plan: [FEATURE]
 
+> 本文件須以繁體中文撰寫（依憲章語言規範）。
+
 **Branch**: `[###-feature-name]` | **Date**: [DATE] | **Spec**: [link]
 **Input**: Feature specification from `/specs/[###-feature-name]/spec.md`
 
@@ -31,7 +33,10 @@
 
 *GATE: Must pass before Phase 0 research. Re-check after Phase 1 design.*
 
-[Gates determined based on constitution file]
+- 語言：全文必須使用繁體中文（除引用專有名詞外）。
+- 測試：新代碼需具備 ≥80% 覆蓋率；需規劃單元測試，以及涵蓋熱鍵觸發、剪貼簿、翻譯管線及外部服務的整合測試；公開介面變更需合約測試。
+- 性能：需定義並驗證 p95 指標—熱鍵到選單 ≤300ms；剪貼簿至輸出 ≤1500ms（服務可達）；單次翻譯後記憶體 <150MB，並確保資源釋放。
+- 分支與提交：功能分支命名 `<ticket-id>-<feature-name>`；提交訊息遵循 Conventional Commits，描述以繁體中文撰寫並含 Ticket-ID。
 
 ## Project Structure
 

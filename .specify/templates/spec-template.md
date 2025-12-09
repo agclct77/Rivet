@@ -1,5 +1,7 @@
 # Feature Specification: [FEATURE NAME]
 
+> 本文件須以繁體中文撰寫（依憲章語言規範）。
+
 **Feature Branch**: `[###-feature-name]`  
 **Created**: [DATE]  
 **Status**: Draft  
@@ -90,6 +92,9 @@
 - **FR-004**: System MUST [data requirement, e.g., "persist user preferences"]
 - **FR-005**: System MUST [behavior, e.g., "log all security events"]
 
+- **性能（依憲章）**：需列出可驗證的 p95 指標（熱鍵至選單 ≤300ms；剪貼簿至翻譯輸出 ≤1500ms，服務可達；單次翻譯後記憶體 <150MB；資源釋放與敏感資訊不落地記錄）。
+- **測試要求**：新功能需達 ≥80% 覆蓋率；明確列出需提供的單元／整合（熱鍵、剪貼簿、翻譯管線、外部服務）及合約測試。
+
 *Example of marking unclear requirements:*
 
 - **FR-006**: System MUST authenticate users via [NEEDS CLARIFICATION: auth method not specified - email/password, SSO, OAuth?]
@@ -109,7 +114,7 @@
 
 ### Measurable Outcomes
 
-- **SC-001**: [Measurable metric, e.g., "Users can complete account creation in under 2 minutes"]
-- **SC-002**: [Measurable metric, e.g., "System handles 1000 concurrent users without degradation"]
-- **SC-003**: [User satisfaction metric, e.g., "90% of users successfully complete primary task on first attempt"]
-- **SC-004**: [Business metric, e.g., "Reduce support tickets related to [X] by 50%"]
+- **SC-001**: [Hotkey to menu ≤300ms p95 on target環境]
+- **SC-002**: [Clipboard-to-output ≤1500ms p95 when翻譯服務可達]
+- **SC-003**: [單次翻譯流程記憶體峰值 <150MB，長時間運行無洩漏]
+- **SC-004**: [User satisfaction metric, e.g., "90% of users成功完成主要任務"]

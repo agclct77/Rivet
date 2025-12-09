@@ -1,0 +1,114 @@
+openapi: 3.0.1
+info:
+  title: Rivet WPF 手動啟動剪貼簿翻譯 - 介面合約
+  version: 0.1.0
+  description: |
+    此 OpenAPI 定義描述 WPF 殼與核心翻譯服務的互動合約（邏輯端點，對應 UI 操作而非對外 HTTP 服務）。
+    兩個主要動作：英→中 與 中→英；剪貼簿內容須為純文字。
+servers:
+  - url: https://localhost/placeholder
+    description: 僅作為介面描述之用，實際由 WPF 內部呼叫服務
+paths:
+  /translate/zh-TW:
+    post:
+      summary: 將剪貼簿文字翻譯成繁體中文
+      operationId: translateToChinese
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TranslateRequest'
+      responses:
+        '200':
+          description: 翻譯成功
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TranslateResponse'
+        '400':
+          description: 剪貼簿為空、非文字或輸入無效
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '503':
+          description: 翻譯服務不可達或超時
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /translate/en:
+    post:
+      summary: 將剪貼簿文字翻譯成英文
+      operationId: translateToEnglish
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TranslateRequest'
+      responses:
+        '200':
+          description: 翻譯成功
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TranslateResponse'
+        '400':
+          description: 剪貼簿為空、非文字或輸入無效
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '503':
+          description: 翻譯服務不可達或超時
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+components:
+  schemas:
+    TranslateRequest:
+      type: object
+      required:
+        - sourceText
+      properties:
+        sourceText:
+          type: string
+          description: 從剪貼簿取得的來源純文字，長度上限 5000 字元
+        metadata:
+          type: object
+          description: 選填，供日誌使用（如剪貼簿格式、來源視窗）
+    TranslateResponse:
+      type: object
+      required:
+        - translatedText
+        - clipboardWriteBack
+      properties:
+        translatedText:
+          type: string
+          description: 翻譯後文字
+        clipboardWriteBack:
+          type: boolean
+          description: 是否已成功回寫剪貼簿
+        latencyMs:
+          type: integer
+          format: int32
+          description: 從觸發到取得翻譯結果的延遲（毫秒），用於 p95 監控
+    ErrorResponse:
+      type: object
+      required:
+        - errorCode
+        - message
+      properties:
+        errorCode:
+          type: string
+          enum: [EMPTY_CLIPBOARD, NON_TEXT, INVALID_INPUT, TRANSLATION_UNAVAILABLE, CLIPBOARD_WRITE_FAILED]
+          description: 錯誤類型代碼
+        message:
+          type: string
+          description: 可顯示給使用者的錯誤訊息（zh-TW）
+        detail:
+          type: string
+          description: 內部詳細資訊（僅記錄於日誌，不顯示於 UI）

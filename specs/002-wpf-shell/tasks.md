@@ -17,10 +17,10 @@ description: "Tasks for Rivet WPF 手動啟動剪貼簿翻譯"
 
 **Purpose**: 建立 WPF 專案與測試骨架，納入現有解決方案。
 
-- [ ] T001 建立 WPF 專案骨架 `src/Rivet.WPF/Rivet.WPF.csproj`（含 `App.xaml`、`MainWindow.xaml` 初始檔）
-- [ ] T002 將 `src/Rivet.WPF/Rivet.WPF.csproj` 加入 `Rivet.sln` 並參考 `Rivet.Service`、`Rivet.Infrastructure`
-- [ ] T003 [P] 建立 WPF UI 測試專案 `tests/Rivet.WPF.Tests/Rivet.WPF.Tests.csproj`（新增 NUnit、FlaUI.UIA3 相依並參考 WPF 專案）
-- [ ] T004 [P] 初始化 WPF 專案資源/設定目錄 `src/Rivet.WPF/Properties/`（含 `AssemblyInfo.cs`、`Resources.resx`、`app.manifest` 佈局）
+- [x] T001 建立 WPF 專案骨架 `src/Rivet.WPF/Rivet.WPF.csproj`（含 `App.xaml`、`MainWindow.xaml` 初始檔）
+- [x] T002 將 `src/Rivet.WPF/Rivet.WPF.csproj` 加入 `Rivet.sln` 並參考 `Rivet.Service`、`Rivet.Infrastructure`
+- [x] T003 [P] 建立 WPF UI 測試專案 `tests/Rivet.WPF.Tests/Rivet.WPF.Tests.csproj`（新增 NUnit、FlaUI.UIA3 相依並參考 WPF 專案）
+- [x] T004 [P] 初始化 WPF 專案資源/設定目錄 `src/Rivet.WPF/Properties/`（含 `AssemblyInfo.cs`、`Resources.resx`、`app.manifest` 佈局）
 
 ---
 

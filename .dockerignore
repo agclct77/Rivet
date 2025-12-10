@@ -1,0 +1,47 @@
+# Git and version control
+.git/
+.gitignore
+.gitattributes
+
+# Build outputs
+bin/
+obj/
+dist/
+build/
+
+# IDEs and editors
+.vs/
+.vscode/
+.idea/
+*.user
+*.suo
+*.swp
+*.swo
+
+# Logs
+*.log
+logs/
+
+# Dependencies
+node_modules/
+
+# Environment files
+.env*
+!.env.example
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Test coverage
+coverage/
+*.trx
+
+# Package locks (for .NET)
+project.lock.json
+project.fragment.lock.json
+
+# Others
+.docker/
+.dockerignore
+.devcontainer/
